@@ -2,5 +2,8 @@
 *.docs
 *.pdf
 
-#fiel data
+# fiel data
 *.jsonl
+
+# model file
+*.pth

@@ -1,0 +1,6 @@
+# file doc or pdf report
+*.docs
+*.pdf
+
+#fiel data
+*.jsonl

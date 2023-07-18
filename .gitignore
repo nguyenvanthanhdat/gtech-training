@@ -8,3 +8,6 @@
 # model file
 *.pth
 build/
+
+# file config vscode
+.vscode

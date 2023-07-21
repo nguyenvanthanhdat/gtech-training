@@ -3,8 +3,7 @@ import torch
 import json
 import sys
 my_dir = sys.path[0]
-print(my_dir)
-# sys.path.append(os.path.join(my_dir, 'src/data'))
+from preprocessing import reranking
 class ELI5(Dataset):
 
     def __init__(self, json_file, type_file=None, max_length=None, model=None):
@@ -29,7 +28,9 @@ class ELI5(Dataset):
         if self.type_file == 'val':
             ctxs = ctxs[0]
 
-        ctxs = " ".join(ctxs)
-        input_sen = "[CLS] " + question\
-            + " [SEP] " + ctxs + " [SEP]"
+        rerank_model = "cross-encoder/ms-marco-MiniLM-L-12-v2"
+        reranking(ctxs=ctxs, answer=answers,model_name=rerank_model)
+        # ctxs = " ".join(ctxs)
+        # input_sen = "[CLS] " + question\
+        #     + " [SEP] " + ctxs + " [SEP]"
         return question_id, question, answers, ctxs

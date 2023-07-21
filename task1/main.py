@@ -16,17 +16,17 @@ def set_rand():
 
 def main(args):
     set_rand()
-    train_path = os.path.join(my_dir, 'docs/ELI5.jsonl')
-    valid_path = os.path.join(my_dir, 'docs/ELI5_val.jsonl')
+    train_path = 'docs/ELI5.jsonl'
+    valid_path = 'docs/ELI5_val.jsonl'
 
     with open(train_path, 'r') as json_file:
         json_list_train = list(json_file)
     with open(valid_path, 'r') as json_file:
         json_list_valid = list(json_file)
 
-    train_dataset = ELI5(json_list_train)
+    train_dataset = ELI5(json_list_train, 'val')
     valid_dataset = ELI5(json_list_valid)
-    print()
+
     bs = args.batch_size
     _, question, answer, ctxs = train_dataset[0]
     print(answer)

@@ -29,14 +29,13 @@ def main(args):
 
     bs = args.batch_size
     _, question, answer, ctxs = train_dataset[0]
-    print(answer)
 
-    # train_data_loader = DataLoader(train_dataset, batch_size=bs,\
-    #     shuffle=True)
-
+    train_data_loader = DataLoader(train_dataset, batch_size=bs,\
+        shuffle=True)
     valid_data_loader = DataLoader(valid_dataset, batch_size=bs,\
         shuffle=False)
 
+    
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()

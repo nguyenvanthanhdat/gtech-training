@@ -9,5 +9,4 @@ torchaudio
 transformers
 rouge_score
 evaluate
-absl
 nltk

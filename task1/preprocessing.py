@@ -7,8 +7,8 @@ def reranking(ctxs, answer, model_name):
     sorted_ctxs = []
 
     # load model 
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name).to('cuda')
+    model = AutoModelForSequenceClassification.from_pretrained(model_name).to('cuda')
 
     # calculate sts
     answers = [answer] * len(ctxs)
@@ -30,8 +30,8 @@ def reranking(ctxs, answer, model_name):
     
     return sorted_ctxs
 
-def tokening(senteces, answer):
+def tokening(senteces, tokenizer):
     tokenizer = AutoTokenizer.from_pretrained(
-        "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps")
+        "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps").to('cuda')
     input_token = tokenizer(senteces, return_tensors="pt")
     return input_token

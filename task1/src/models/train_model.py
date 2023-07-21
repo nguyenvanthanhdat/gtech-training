@@ -1,5 +1,5 @@
 import evaluate
-def train(model, steps, learning_rate, train_data_loader, valid_data_loader):
+def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_loader):
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     loss_function = nn.CrossEntropyLoss()
     max_result_roguel = 0
@@ -19,14 +19,14 @@ def train(model, steps, learning_rate, train_data_loader, valid_data_loader):
             optimizer.zero_grad()
             
             if step % 1000 == 0:
-                result_roguel = eval(model, valid_data_loader)
+                result_roguel = eval(model, tokenizer, valid_data_loader)
                 if result_roguel > max_result_roguel:
                     torch.save(model,'model.pt')
                     max_result_roguel = result_roguel
             
             step += 1
 
-def eval(model, valid_data_loader):
+def eval(model, tokenizer, valid_data_loader):
     outputs = []
     answers = []
     for batch in valid_data_loader:

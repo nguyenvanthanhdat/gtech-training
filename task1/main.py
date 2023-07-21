@@ -37,7 +37,11 @@ def main(args):
 
     learning_rate = 1e-3
     steps = 500000
-    train(model, steps, learning_rate, train_data_loader, valid_data_loader)
+    tokenizer = AutoTokenizer.from_pretrained(
+        "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps").to('cuda')
+    model = LongT5ForConditionalGeneration.from_pretrained(
+         "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps").to('cuda')
+    train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_loader)
 
 if __name__ == '__main__':
     import argparse

@@ -3,7 +3,7 @@ import torch
 import json
 class ELI5(Dataset):
 
-    def __init__(self, type_file=None, json_file, max_length=None, model=None):
+    def __init__(self, json_file, type_file=None, max_length=None, model=None):
         self.type_file = type_file
         self.json_file = json_file
         self.json_list = []

@@ -16,8 +16,8 @@ def set_rand():
 
 def main(args):
     set_rand()
-    train_path = 'docs/ELI5.jsonl'
-    valid_path = 'docs/ELI5_val.jsonl'
+    train_path = os.path.join(my_dir, 'docs/ELI5.jsonl')
+    valid_path = os.path.join(my_dir, 'docs/ELI5_val.jsonl')
 
     with open(train_path, 'r') as json_file:
         json_list_train = list(json_file)

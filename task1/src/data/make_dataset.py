@@ -35,5 +35,7 @@ class ELI5(Dataset):
             + " [SEP] " + ctxs + " [SEP]"
         
         input_token = tokening(input_sen)
+        if self.type_file == None:
+            ans_token = tokening(answers)
 
-        return answers, input_token
+        return input_token, ans_token

@@ -30,7 +30,7 @@ def reranking(ctxs, answer, model_name):
     
     return sorted_ctxs
 
-def tokening(senteces):
+def tokening(senteces, answer):
     tokenizer = AutoTokenizer.from_pretrained(
         "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps")
     input_token = tokenizer(senteces, return_tensors="pt")

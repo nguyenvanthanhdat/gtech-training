@@ -7,3 +7,7 @@ torchvision
 --extra-index-url https://download.pytorch.org/whl/cu118
 torchaudio
 transformers
+rouge_score
+evaluate
+absl
+nltk

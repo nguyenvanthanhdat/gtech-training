@@ -3,7 +3,7 @@ import torch
 import json
 import sys
 my_dir = sys.path[0]
-from preprocessing import reranking
+from preprocessing import reranking, tokening
 class ELI5(Dataset):
 
     def __init__(self, json_file, type_file=None, max_length=None, model=None):
@@ -32,10 +32,11 @@ class ELI5(Dataset):
         sorted_ctxs = reranking(ctxs=ctxs, answer=answers,model_name=rerank_model)
         sorted_ctxs = " ".join(sorted_ctxs)
         input_sen = "[CLS] " + question\
-            + " [SEP] " + ctxs + " [SEP]"
+            + " [SEP] " + sorted_ctxs + " [SEP]"
         
-        input_token = tokening(input_sen)
+        input_token = tokening(input_sen, 512).input_ids.squeeze()
         if self.type_file == None:
-            ans_token = tokening(answers)
-
-        return input_token.to('cuda'), ans_token.to('cuda')
+            ans_token = tokening(answers, 50).input_ids.squeeze()
+            return input_token.to('cuda'), ans_token.to('cuda')
+        else:
+            return input_token.to('cuda'), answers

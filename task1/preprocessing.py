@@ -30,8 +30,14 @@ def reranking(ctxs, answer, model_name):
     
     return sorted_ctxs
 
-def tokening(senteces, tokenizer):
+def tokening(senteces, length):
     tokenizer = AutoTokenizer.from_pretrained(
-        "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps").to('cuda')
-    input_token = tokenizer(senteces, return_tensors="pt")
+        "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps")
+    input_token = tokenizer(
+        senteces,
+        max_length=length,
+        pad_to_max_length=True,
+        truncation=True,
+        padding="max_length",
+        return_tensors="pt" )
     return input_token

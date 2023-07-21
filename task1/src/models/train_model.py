@@ -1,17 +1,19 @@
 import evaluate
+import torch
+from tqdm import tqdm
 def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_loader):
-    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-    loss_function = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    loss_function = torch.nn.CrossEntropyLoss()
     max_result_roguel = 0
     step = 0
     while(step < steps):
-        for batch in train_data_loader:
+        for batch in tqdm(train_data_loader):
             if step > steps:
                 break
 
             input_token = batch[0]
             ans_token = batch[1]
-            outputs = model.generate(input_token, labels=ans_token)
+            outputs = model(input_token, labels=ans_token)
             loss = outputs.loss
             loss.backward()
 
@@ -21,9 +23,9 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
             if step % 1000 == 0:
                 result_roguel = eval(model, tokenizer, valid_data_loader)
                 if result_roguel > max_result_roguel:
-                    torch.save(model,'model.pt')
+                    torch.save(model,'../models/model.pt')
                     max_result_roguel = result_roguel
-            
+                print(f'{step}/{steps}: rougeL = {result_roguel}')
             step += 1
 
 def eval(model, tokenizer, valid_data_loader):

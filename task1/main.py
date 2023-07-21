@@ -1,7 +1,7 @@
 from tqdm import tqdm
 import sys, os, json, argparse, random
 from torch.utils.data import DataLoader
-from transformers import BartTokenizer, BartForConditionalGeneration
+from transformers import AutoTokenizer, LongT5ForConditionalGeneration
 my_dir = sys.path[0]
 sys.path.append(os.path.join(my_dir, 'src/data'))
 sys.path.append(os.path.join(my_dir, 'src/models'))
@@ -38,7 +38,7 @@ def main(args):
     learning_rate = 1e-3
     steps = 500000
     tokenizer = AutoTokenizer.from_pretrained(
-        "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps").to('cuda')
+        "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps")
     model = LongT5ForConditionalGeneration.from_pretrained(
          "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps").to('cuda')
     train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_loader)

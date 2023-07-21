@@ -28,8 +28,8 @@ class ELI5(Dataset):
         if self.type_file == 'val':
             ctxs = ctxs[0]
 
-        rerank_model = "cross-encoder/ms-marco-MiniLM-L-12-v2"
-        reranking(ctxs=ctxs, answer=answers,model_name=rerank_model)
+        # rerank_model = "cross-encoder/ms-marco-MiniLM-L-12-v2"
+        # reranking(ctxs=ctxs, answer=answers,model_name=rerank_model)
         # ctxs = " ".join(ctxs)
         # input_sen = "[CLS] " + question\
         #     + " [SEP] " + ctxs + " [SEP]"

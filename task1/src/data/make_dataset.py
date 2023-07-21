@@ -1,6 +1,7 @@
 from torch.utils.data import Dataset
 import torch
 import json
+import sys
 my_dir = sys.path[0]
 print(my_dir)
 # sys.path.append(os.path.join(my_dir, 'src/data'))

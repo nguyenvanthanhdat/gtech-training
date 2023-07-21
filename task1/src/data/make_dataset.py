@@ -27,10 +27,13 @@ class ELI5(Dataset):
         ctxs = data_load['ctxs']
         if self.type_file == 'val':
             ctxs = ctxs[0]
+        answers = answers[0]
+        rerank_model = "cross-encoder/ms-marco-MiniLM-L-12-v2"
+        sorted_ctxs = reranking(ctxs=ctxs, answer=answers,model_name=rerank_model)
+        sorted_ctxs = " ".join(sorted_ctxs)
+        input_sen = "[CLS] " + question\
+            + " [SEP] " + ctxs + " [SEP]"
+        
+        input_token = tokening(input_sen)
 
-        # rerank_model = "cross-encoder/ms-marco-MiniLM-L-12-v2"
-        # reranking(ctxs=ctxs, answer=answers,model_name=rerank_model)
-        # ctxs = " ".join(ctxs)
-        # input_sen = "[CLS] " + question\
-        #     + " [SEP] " + ctxs + " [SEP]"
-        return question_id, question, answers, ctxs
+        return answers, input_token

@@ -35,7 +35,7 @@ def main(args):
     valid_data_loader = DataLoader(valid_dataset, batch_size=bs,\
         shuffle=False)
 
-
+    print("!!! ALL PASS")
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()

@@ -1,4 +1,5 @@
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoModelForSequenceClassification,\
+    LongT5ForConditionalGeneration
 import numpy as np
 import torch
 
@@ -22,8 +23,15 @@ def reranking(ctxs, answer, model_name):
     with torch.no_grad():
         scores = model(**features).logits
     
+    # sort by descending
     tensor_array = np.array(scores)
     sorted_indices = np.argsort(tensor_array, axis=0)[::-1]
     sorted_ctxs = [ctxs[i[0]] for i in sorted_indices]
-    # sort by descending
+    
     return sorted_ctxs
+
+def tokening(senteces):
+    tokenizer = AutoTokenizer.from_pretrained(
+        "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps")
+    input_token = tokenizer(senteces, return_tensors="pt")
+    return input_token

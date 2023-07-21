@@ -3,8 +3,7 @@ import sys, os, json, argparse, random
 from torch.utils.data import DataLoader
 from transformers import BartTokenizer, BartForConditionalGeneration
 my_dir = sys.path[0]
-print(my_dir)
-sys.path.append(os.path.join(my_dir, 'src\data'))
+sys.path.append(os.path.join(my_dir, 'src/data'))
 from make_dataset import *
 
 def set_rand():

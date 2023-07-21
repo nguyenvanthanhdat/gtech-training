@@ -3,9 +3,12 @@ import torch
 import json
 class ELI5(Dataset):
 
-    def __init__(self, json_file, max_length=None, tokenizer=None):
+    def __init__(self, type_file, json_file, max_length=None, model=None):
+        self.type_file = type_file
         self.json_file = json_file
         self.json_list = []
+        self.max_length = max_length
+        self.model = model
         for i in range(len(json_file)):
             self.json_list += [json_file[i]]
 
@@ -19,4 +22,6 @@ class ELI5(Dataset):
         question = data_load['question']
         answers = data_load['answers']
         ctxs = data_load['ctxs']
+        if self.type_file == 'val':
+            ctxs = ctxs[0]
         return question_id, question, answers, ctxs

@@ -26,25 +26,10 @@ def main(args):
 
     train_dataset = ELI5(json_list_train)
     valid_dataset = ELI5(json_list_valid)
-
+    print()
     bs = args.batch_size
-    _, question, _, ctxs = train_dataset[0]
-    question_tokens = tokenizer.encode(question,\
-        return_tensors='pt')
-    for doc in ctxs:
-        doc_tokens = tokenizer.encode(doc, return_tensors='pt')
-        combined_tokens = torch.cat((question_tokens, doc_tokens), dim=1)
-        segments = [combined_tokens[:, i:i+max_seq_length]\
-            for i in range(0, combined_tokens.size(1), max_seq_length)]
-        for segment in segments:
-            output = model.generate(
-                segment,
-                max_length=1000,  # Set the maximum length for generated answers
-                num_beams=5,
-                num_return_sequences=1,
-                early_stopping=True
-            )
-            answers.append(tokenizer.decode(output[0]))
+    _, question, answer, ctxs = train_dataset[0]
+    print(answer)
 
     # train_data_loader = DataLoader(train_dataset, batch_size=bs,\
     #     shuffle=True)

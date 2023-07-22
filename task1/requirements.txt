@@ -10,3 +10,4 @@ transformers
 rouge_score
 evaluate
 nltk
+huggingface_hub

@@ -34,9 +34,10 @@ class ELI5(Dataset):
         input_sen = "[CLS] " + question\
             + " [SEP] " + sorted_ctxs + " [SEP]"
         
-        input_token = tokening(input_sen, 512).input_ids.squeeze()
         if self.type_file == None:
+            input_token = tokening(input_sen, 512).input_ids.squeeze()
             ans_token = tokening(answers, 50).input_ids.squeeze()
             return input_token.to('cuda'), ans_token.to('cuda')
         else:
+            input_token = tokening(input_sen, 512).input_ids
             return input_token.to('cuda'), answers

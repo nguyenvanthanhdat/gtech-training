@@ -8,6 +8,7 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
     step = 0
     while(step < steps):
         for batch in tqdm(train_data_loader):
+            print(f'step: {step}/ steps: {steps}')
             if step > steps:
                 break
 

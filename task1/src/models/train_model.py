@@ -32,7 +32,7 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
 def eval(model, tokenizer, valid_data_loader):
     outputs = []
     answers = []
-    for batch in valid_data_loader:
+    for batch in tqdm(valid_data_loader):
         input_token = batch[0]
         ans_token = batch[1]
 

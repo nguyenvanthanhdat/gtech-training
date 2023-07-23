@@ -21,7 +21,7 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
             optimizer.step()
             optimizer.zero_grad()
             
-            if step % 1000 == 0:
+            if step % 1000 == 0 and step != 0:
                 result_roguel = eval(model, tokenizer, valid_data_loader)
                 if result_roguel > max_result_roguel:
                     torch.save(model,'../models/model.pt')

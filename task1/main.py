@@ -44,8 +44,8 @@ def main(args):
 
     learning_rate = 1e-3
     steps = 50000
-    # tokenizer = AutoTokenizer.from_pretrained(
-    #     "t5-small")
+    tokenizer = AutoTokenizer.from_pretrained(
+        "t5-small")
     model = LongT5ForConditionalGeneration.from_pretrained(
          "t5-small").to('cuda')
     train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_loader)

@@ -1,6 +1,7 @@
 from tqdm import tqdm
 import sys, os, json, argparse, random
 from torch.utils.data import DataLoader
+from huggingface_hub import hf_hub_download
 from transformers import AutoTokenizer, LongT5ForConditionalGeneration
 my_dir = sys.path[0]
 sys.path.append(os.path.join(my_dir, 'src/data'))
@@ -18,6 +19,12 @@ def set_rand():
 
 def main(args):
     set_rand()
+    hf_hub_download(
+        repo_id="presencesw/task1", filename="ELI5.jsonl", 
+        repo_type="dataset", local_dir="/docs")
+    hf_hub_download(
+        repo_id="presencesw/task1", filename="ELI5_val.jsonl", 
+        repo_type="dataset", local_dir="/docs")
     train_path = 'docs/ELI5.jsonl'
     valid_path = 'docs/ELI5_val.jsonl'
 

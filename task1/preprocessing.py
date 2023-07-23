@@ -7,7 +7,7 @@ def reranking(ctxs, answer, model_name):
     sorted_ctxs = []
 
     # load model 
-    tokenizer = AutoTokenizer.from_pretrained(model_name).to('cuda')
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSequenceClassification.from_pretrained(model_name).to('cuda')
 
     # calculate sts

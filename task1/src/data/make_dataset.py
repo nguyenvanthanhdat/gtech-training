@@ -20,7 +20,7 @@ class ELI5(Dataset):
 
     def __getitem__(self, index):
         data = self.json_list[index]
-        data_load = json.loads(data)
+        data_load = json.loads(data, strict=False)
         question_id = data_load['question_id']
         question = data_load['question']
         answers = data_load['answers']

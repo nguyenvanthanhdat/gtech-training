@@ -21,10 +21,10 @@ def main(args):
     set_rand()
     hf_hub_download(
         repo_id="presencesw/task1", filename="ELI5.jsonl", 
-        repo_type="dataset", local_dir="/docs")
+        repo_type="dataset", local_dir="docs")
     hf_hub_download(
         repo_id="presencesw/task1", filename="ELI5_val.jsonl", 
-        repo_type="dataset", local_dir="/docs")
+        repo_type="dataset", local_dir="docs")
     train_path = 'docs/ELI5.jsonl'
     valid_path = 'docs/ELI5_val.jsonl'
 

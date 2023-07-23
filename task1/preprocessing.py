@@ -18,10 +18,10 @@ def reranking(ctxs, answer, model_name):
         ctxs,
         padding=True,
         truncation=True,
-        return_tensors="pt")
+        return_tensors="pt").to('cuda')
     model.eval()
     with torch.no_grad():
-        scores = model(**features).logits
+        scores = model(**features).logits.to('cpu')
     
     # sort by descending
     tensor_array = np.array(scores)

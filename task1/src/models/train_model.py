@@ -12,10 +12,13 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
             if step > steps:
                 break
 
-            input_token = batch[0]
-            ans_token = batch[1]
-            outputs = model(input_token, labels=ans_token)
-            loss = outputs.loss
+            input_token = batch[0].input_ids
+            input_mask = batch[0].attention_mask
+            ans_token = batch[1].input_ids
+            loss = model(
+                input_ids = input_token,
+                attention_mask = input_mask,
+                labels=ans_token).loss
             loss.backward()
 
             optimizer.step()
@@ -32,12 +35,15 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
 def eval(model, tokenizer, valid_data_loader):
     outputs = []
     answers = []
+    model.eval()
     for batch in tqdm(valid_data_loader):
-        input_token = batch[0]
+        input_token = batch[0].input_ids
+        input_mask = batch[0].attention_mask
         ans_token = batch[1]
 
         output = model.generate(
-            input_token,
+            input_ids = input_token,
+            attention_mask = input_mask,
             max_length=50,
             early_stopping=True)
         outputs.append(tokenizer.decode(output[0], skip_special_tokens=True))

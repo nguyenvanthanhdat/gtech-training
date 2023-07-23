@@ -32,7 +32,7 @@ def reranking(ctxs, answer, model_name):
 
 def tokening(senteces, length):
     tokenizer = AutoTokenizer.from_pretrained(
-        "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps")
+        "t5-small")
     input_token = tokenizer(
         senteces,
         max_length=length,

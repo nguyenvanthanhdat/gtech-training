@@ -36,7 +36,10 @@ def eval(model, tokenizer, valid_data_loader):
         input_token = batch[0]
         ans_token = batch[1]
 
-        output = model.generate(input_ids)
+        output = model.generate(
+            input_token,
+            max_length=50,
+            early_stopping=True)
         outputs.append(tokenizer.decode(output[0], skip_special_tokens=True))
         answers.append(ans_token)
     rouge = evaluate.load('rouge')

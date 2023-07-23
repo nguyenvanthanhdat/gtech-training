@@ -43,7 +43,7 @@ def main(args):
         shuffle=False)
 
     learning_rate = 1e-3
-    steps = 500000
+    steps = 50000
     tokenizer = AutoTokenizer.from_pretrained(
         "Stancld/longt5-tglobal-large-16384-pubmed-3k_steps")
     model = LongT5ForConditionalGeneration.from_pretrained(

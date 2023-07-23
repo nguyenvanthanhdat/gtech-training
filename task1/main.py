@@ -37,6 +37,7 @@ def main(args):
     valid_dataset = ELI5(json_list_valid, 'val')
 
     bs = args.batch_size
+    env_run = kaggle if args.env_run == "kaggle" else None
     train_data_loader = DataLoader(train_dataset, batch_size=bs,\
         shuffle=True)
     valid_data_loader = DataLoader(valid_dataset, batch_size=bs,\
@@ -53,8 +54,13 @@ def main(args):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--batch_size', metavar='int',\
-        type=int, required=True,\
+    parser.add_argument(
+        '--batch_size', metavar='int',
+        type=int, required=True,
         help='batch to train model')
+    parser.add_argument(
+        '--env_run', metavar='int',
+        type=str, required=True,
+        help='if you run in kaggle set kaggle else skip')
     args = parser.parse_args()
     main(args=args)

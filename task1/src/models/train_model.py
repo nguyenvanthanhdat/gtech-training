@@ -5,8 +5,8 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     loss_function = torch.nn.CrossEntropyLoss()
     max_result_roguel = 0
-    step = 0
-    epochs = 10
+    step = 1
+    epochs = 1
     writer = SummaryWriter('/kaggle/working/runs/task1')
     for epoch in range(epochs):
         train_loss = 0
@@ -26,7 +26,7 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
             optimizer.step()
             optimizer.zero_grad()
             
-            if step % 1000 == 0 and step != 0:
+            if step % 50 == 0 and step != 0:
                 result_roguel = eval(model, tokenizer, valid_data_loader)
                 writer.add_scalar('RougeL/Valid', result_roguel, step)
                 print(f'step: {step} - RougeL: {result_roguel}')
@@ -35,6 +35,8 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
                     print("Model saved")
                     max_result_roguel = result_roguel
             step += 1
+            if step == 474:
+                break
         writer.add_scalar('Loss/Train', train_loss, epoch)
     result_roguel = eval(model, tokenizer, valid_data_loader)
     writer.add_scalar('RougeL/Valid', result_roguel, step)

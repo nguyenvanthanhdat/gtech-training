@@ -1,6 +1,7 @@
 # file doc or pdf report
 *.docx
 *.pdf
+*.txt
 
 # fiel data
 *.jsonl

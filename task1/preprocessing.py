@@ -8,7 +8,11 @@ def reranking(ctxs, answer, model_name):
 
     # load model 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name).to('cuda')
+    model = AutoModelForSequenceClassification.from_pretrained(model_name)
+    if torch.cuda.device_count() > 1:
+        model = torch.nn.DataParallel(model)
+    model.to('cuda')
+
 
     # calculate sts
     answers = [answer] * len(ctxs)

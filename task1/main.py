@@ -1,5 +1,5 @@
 from tqdm import tqdm
-import sys, os, json, argparse, random
+import sys, os, json, argparse, random, torch
 from torch.utils.data import DataLoader
 from huggingface_hub import hf_hub_download
 from transformers import AutoTokenizer, LongT5ForConditionalGeneration
@@ -48,7 +48,10 @@ def main(args):
     tokenizer = AutoTokenizer.from_pretrained(
         "t5-small")
     model = LongT5ForConditionalGeneration.from_pretrained(
-         "t5-small").to('cuda')
+         "t5-small")
+    if torch.cuda.device_count() > 1:
+        model = torch.nn.DataParallel(model)
+    model.to('cuda')
     train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_loader)
 
 if __name__ == '__main__':

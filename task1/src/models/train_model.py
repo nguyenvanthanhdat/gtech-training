@@ -3,8 +3,6 @@ import os, time, evaluate, torch
 from torch.utils.tensorboard import SummaryWriter
 def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_loader):
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-    if torch.cuda.device_count() > 1:
-        model = torch.nn.DataParallel(model)
     loss_function = torch.nn.CrossEntropyLoss()
     max_result_roguel = 0
     step = 0

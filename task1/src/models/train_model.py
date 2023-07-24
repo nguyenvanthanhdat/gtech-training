@@ -23,7 +23,7 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
                 attention_mask = input_mask,
                 labels=ans_token).loss
             train_loss += loss
-            loss.backward()
+            loss.mean().backward()
 
             optimizer.step()
             optimizer.zero_grad()

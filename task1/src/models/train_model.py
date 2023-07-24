@@ -13,9 +13,9 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
         for batch in train_data_loader:
             print(f'step: {step}')
 
-            input_token = batch[0].input_ids.squeeze()
-            input_mask = batch[0].attention_mask.squeeze()
-            ans_token = batch[1].input_ids.squeeze()
+            input_token = batch[0].input_ids.squeeze().to('cuda')
+            input_mask = batch[0].attention_mask.squeeze().to('cuda')
+            ans_token = batch[1].input_ids.squeeze().to('cuda')
             loss = model(
                 input_ids = input_token,
                 attention_mask = input_mask,
@@ -49,14 +49,14 @@ def eval(model, tokenizer, valid_data_loader):
     answers = []
     model.eval()
     for batch in tqdm(valid_data_loader):
-        input_token = batch[0].input_ids.squeeze()
-        input_mask = batch[0].attention_mask.squeeze()
+        input_token = batch[0].input_ids.squeeze().to('cuda')
+        input_mask = batch[0].attention_mask.squeeze().to('cuda')
         ans_token = batch[1].squeeze()
 
         output = model.generate(
             input_ids = input_token,
             attention_mask = input_mask,
-            max_length=50,
+            max_length=128,
             early_stopping=True)
         outputs.append(tokenizer.decode(output[0], skip_special_tokens=True))
         answers.append(ans_token)

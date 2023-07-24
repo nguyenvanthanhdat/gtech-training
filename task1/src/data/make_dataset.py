@@ -37,6 +37,6 @@ class ELI5(Dataset):
         
         if self.type_file == None:
             ans_token = tokening(answers, 128)
-            return input_token.to('cuda'), ans_token.to('cuda')
+            return input_token, ans_token
         else:
-            return input_token.to('cuda'), answers
+            return input_token, answers

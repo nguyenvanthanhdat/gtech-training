@@ -37,7 +37,7 @@ def main(args):
     valid_dataset = ELI5(json_list_valid, 'val')
 
     bs = args.batch_size
-    env_run = kaggle if args.env_run == "kaggle" else None
+    env_run = "kaggle" if args.env_run == "kaggle" else None
     train_data_loader = DataLoader(train_dataset, batch_size=bs,\
         shuffle=True)
     valid_data_loader = DataLoader(valid_dataset, batch_size=bs,\

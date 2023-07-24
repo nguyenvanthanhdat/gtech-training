@@ -44,6 +44,8 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
         max_result_roguel = result_roguel
     os.system("zip /kaggle/working/model.zip /kaggle/working/model.pt") # compress model
 
+    writer.close()
+
 def eval(model, tokenizer, valid_data_loader):
     outputs = []
     answers = []

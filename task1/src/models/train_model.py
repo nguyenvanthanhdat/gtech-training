@@ -10,7 +10,7 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
     step = 0
     epochs = 10
     writer = SummaryWriter('/kaggle/working/runs/task1')
-    for epoch in epochs:
+    for epoch in range(epochs):
         train_loss = 0
         for batch in train_data_loader:
             print(f'step: {step}')

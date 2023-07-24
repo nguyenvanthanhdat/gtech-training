@@ -61,6 +61,6 @@ if __name__ == '__main__':
     parser.add_argument(
         '--env_run', metavar='int',
         type=str, required=True,
-        help='if you run in kaggle set kaggle else skip')
+        help='if you not run in kaggle set kaggle else skip')
     args = parser.parse_args()
     main(args=args)

@@ -1,6 +1,8 @@
 import evaluate
 import torch
 from tqdm import tqdm
+import os
+from torch.utils.tensorboard import SummaryWriter
 def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_loader):
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     if torch.cuda.device_count() > 1:
@@ -29,14 +31,16 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
                 result_roguel = eval(model, tokenizer, valid_data_loader)
                 if result_roguel > max_result_roguel:
                     torch.save(model,'/kaggle/working/model.pt')
+                    print("Model saved")
                     max_result_roguel = result_roguel
                 print(f'{step}: rougeL = {result_roguel}')
             step += 1
     result_roguel = eval(model, tokenizer, valid_data_loader)
     if result_roguel > max_result_roguel:
-        torch.save(model,'../models/model.pt')
+        torch.save(model,'/kaggle/working/model.pt')
         max_result_roguel = result_roguel
     print(f'{step}: rougeL = {result_roguel}')
+    os.system("zip /kaggle/working/model.zip /kaggle/working/model.pt") # compress model
 
 def eval(model, tokenizer, valid_data_loader):
     outputs = []

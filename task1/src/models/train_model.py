@@ -1,8 +1,6 @@
-import evaluate
-import torch
 from tqdm import tqdm
-import os
-from torch.utils.tensorboard import SummaryWriter
+import os, time, evaluate, torch
+from torch.utils.tensorboard import trainmaryWriter
 def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_loader):
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     if torch.cuda.device_count() > 1:
@@ -11,7 +9,9 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
     max_result_roguel = 0
     step = 0
     epochs = 10
+    writer = SummaryWriter('/kaggle/working/runs/task1')
     for epoch in epochs:
+        train_loss = 0
         for batch in train_data_loader:
             print(f'step: {step}')
 
@@ -22,6 +22,7 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
                 input_ids = input_token,
                 attention_mask = input_mask,
                 labels=ans_token).loss
+            train_loss += loss
             loss.backward()
 
             optimizer.step()
@@ -29,17 +30,20 @@ def train(model, tokenizer, steps, learning_rate, train_data_loader, valid_data_
             
             if step % 1000 == 0 and step != 0:
                 result_roguel = eval(model, tokenizer, valid_data_loader)
+                writer.add_scalar('RougeL/Valid', result_roguel, step)
+                print(f'step: {step} - RougeL: {result_roguel}')
                 if result_roguel > max_result_roguel:
                     torch.save(model,'/kaggle/working/model.pt')
                     print("Model saved")
                     max_result_roguel = result_roguel
-                print(f'{step}: rougeL = {result_roguel}')
             step += 1
+        writer.add_scalar('Loss/Train', train_loss, epoch)
     result_roguel = eval(model, tokenizer, valid_data_loader)
+    writer.add_scalar('RougeL/Valid', result_roguel, step)
     if result_roguel > max_result_roguel:
         torch.save(model,'/kaggle/working/model.pt')
+        print("Model saved")
         max_result_roguel = result_roguel
-    print(f'{step}: rougeL = {result_roguel}')
     os.system("zip /kaggle/working/model.zip /kaggle/working/model.pt") # compress model
 
 def eval(model, tokenizer, valid_data_loader):
@@ -61,3 +65,9 @@ def eval(model, tokenizer, valid_data_loader):
     rouge = evaluate.load('rouge')
     results = rouge.compute(predictions=outputs,references=answers)
     return results['rougeL']
+
+def epoch_time(start_time, end_time):
+    elapsed_time = end_time - start_time
+    elapsed_mins = int(elapsed_time / 60)
+    elapsed_secs = int(elapsed_time - (elapsed_mins * 60))
+    return elapsed_mins, elapsed_secs

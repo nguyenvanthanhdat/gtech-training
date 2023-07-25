@@ -11,7 +11,7 @@ def eval(model, tokenizer, valid_data_loader):
         input_mask = batch[0].attention_mask.squeeze().to('cuda')
         ans_token = batch[1]
 
-        output = model.generate(
+        output = model.module.generate(
             input_ids = input_token,
             attention_mask = input_mask,
             max_length=128,

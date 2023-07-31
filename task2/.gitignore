@@ -133,3 +133,5 @@ dmypy.json
 
 # model file
 *.pt
+# data file
+data/*

@@ -30,6 +30,7 @@ class ELI5(Dataset):
         answers = answers[0]
         rerank_model = "cross-encoder/ms-marco-MiniLM-L-12-v2"
         sorted_ctxs = reranking(ctxs=ctxs, answer=answers,model_name=rerank_model)
+        # sorted_ctxs = sorted_ctxs[:3]
         sorted_ctxs = " ".join(sorted_ctxs)
         input_sen = "[CLS] " + question\
             + " [SEP] " + sorted_ctxs + " [SEP]"

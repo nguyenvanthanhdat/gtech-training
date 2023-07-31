@@ -8,7 +8,8 @@
 # [CLS] + question + [SEP] + support chunk (top) + [SEP]
 # generate the answer  
 
-# TODO 1: chunk data
+
+
 
 # TODO 2: get similarity with embedding
 # TODO 3: tokenize the special token

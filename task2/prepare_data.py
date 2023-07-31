@@ -1,6 +1,7 @@
 # TODO 1: chunk data
 from datasets import load_dataset, load_from_disk
 from tqdm import tqdm
+import psycopg2
 
 wikis = load_from_disk('data')
 wikis = wikis['train']
@@ -60,6 +61,6 @@ def add_data(table_name):
 
 # create database wikipedia
 create_table("wikipedia")
-# disconect to the database
-if conn is not None:
-    conn.close()
+# # disconect to the database
+# if conn is not None:
+#     conn.close()

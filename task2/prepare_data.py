@@ -20,6 +20,12 @@ def create_table(table_name):
             user="postgres",
             password="1")
         cur = conn.cursor()
+        # check have data to continue or not
+        cur.execute("SELECT id FROM wikipedia ORDER BY id limit 1;")
+        if cur.fetchone() != None:
+            if conn is not None:
+                conn.close()
+                return
         # Enable the pgvector extension
         cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
         # Create database
@@ -50,16 +56,24 @@ def add_data(table_name):
             user="postgres",
             password="1")
         cur = conn.cursor()
-        # register_vector(cur)
+        step = 1
+        cur.execute("SELECT id FROM wikipedia ORDER BY id desc limit 1;")
+        if cur.fetchone() != None:
+            steps = cur.fetchone()[0]
+        else:
+            steps = 0
         for wiki in tqdm(wikis):
             id = wiki['id']
             text = wiki['text']
             texts = text_splitter.create_documents([text])
             command = f"INSERT INTO {table_name} (chunk_text, embedding) VALUES (%s, %s);"
             for i in range(len(texts)):
+                if step <= steps:
+                    step += 1
+                    continue
                 input_token = tokening(texts[i].page_content, 512).input_ids.squeeze(0).cpu().detach().numpy().tolist()
                 cur.execute(command, (texts[i].page_content, input_token))
-        conn.commit()
+                conn.commit()
     except psycopg2.OperationalError as e:
         print(f"Error: {e}")
     finally:
